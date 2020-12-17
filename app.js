@@ -1,12 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
+
+const Event = require('./models/event');
 
 const app = express();
 
 app.use(express.json());
-
-const events = [];
 
 app.use(
   '/',
@@ -44,24 +45,51 @@ app.use(
     `),
     rootValue: {
       events: (parent, args, context, info) => {
-        return events;
+        return Event.find()
+          .then((events) => {
+            return events.map((event) => {
+              return { ...event._doc, _id: event.id };
+            });
+          })
+          .catch((err) => {
+            throw err;
+          });
       },
       createEvent: (args) => {
-        const event = {
-          _id: Math.random().toString(),
+        const event = new Event({
           title: args.eventInput.title,
           description: args.eventInput.description,
           price: args.eventInput.price,
-          date: new Date(),
-        };
-        events.push(event);
-        return event;
+          date: new Date(args.eventInput.date),
+        });
+        return event
+          .save()
+          .then((result) => {
+            console.log(result);
+            return { ...result._doc, _id: event._doc._id.toString() };
+          })
+          .catch((err) => {
+            console.log(err);
+            throw err;
+          });
       },
     },
     graphiql: true,
     pretty: true,
   }),
 );
+
+mongoose
+  .connect(`${process.env.MONGO_URI}/${process.env.MONGO_DB_COLLECTION}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('database connected'))
+  .catch((err) =>
+    console.log(
+      'Failed to connect to thee database please verify uri or interneet connection',
+    ),
+  );
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
