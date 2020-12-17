@@ -91,7 +91,7 @@ mongoose
     ),
   );
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 app.listen(port, () => {
-  console.log('Server is runnin on http://localhost:3001/graphql');
+  console.log('Server is running on http://localhost:3001/graphql');
 });

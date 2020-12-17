@@ -1,6 +1,7 @@
 {
   "env": {
     "MONGO_URI": "mongodb://localhost:27017",
-    "MONGO_DB_COLLECTION": "event-booking-app"
+    "MONGO_DB_COLLECTION": "event-booking-app",
+    "PORT": 3001
   }
 }
