@@ -1,0 +1,30 @@
+query LIST_OF_EVENTS {
+  events {
+    _id
+    title
+    description
+    date
+  }
+}
+
+mutation CREATING_EVENT(
+  $title: String!
+  $description: String!
+  $price: Float!
+  $date: String!
+) {
+  createEvent(
+    eventInput: {
+      title: $title
+      description: $description
+      price: $price
+      date: $date
+    }
+  ) {
+    _id
+    title
+    description
+    price
+    date
+  }
+}
