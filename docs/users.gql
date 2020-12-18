@@ -17,3 +17,11 @@ mutation CREATE_USER($email: String!, $password: String!) {
     password
   }
 }
+
+query LOGIN($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    userId
+    token
+    tokenExpiration
+  }
+}
