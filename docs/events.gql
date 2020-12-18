@@ -1,9 +1,16 @@
 query LIST_OF_EVENTS {
   events {
-    _id
-    title
-    description
-    date
+    creator {
+      _id
+      email
+      password
+      createdEvents {
+        _id
+        title
+        description
+        date
+      }
+    }
   }
 }
 
@@ -21,10 +28,8 @@ mutation CREATING_EVENT(
       date: $date
     }
   ) {
-    _id
-    title
-    description
-    price
-    date
+    creator {
+      email
+    }
   }
 }

@@ -1,0 +1,26 @@
+query LIST_OF_BOOKING {
+  bookings {
+    _id
+    createdAt
+    event {
+      title
+      creator {
+        email
+      }
+    }
+  }
+}
+
+mutation BOOKING_EVENT($eventId: ID!) {
+  bookEvent(eventId: $eventId) {
+    _id
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CANCEL_BOOKING($bookingId: ID!) {
+  cancelBooking(bookingId: $bookingId) {
+    title
+  }
+}
